@@ -1,0 +1,37 @@
+.navbar {
+    z-index: 1;   
+}
+.nav-link:hover {
+    color: antiquewhite; /* change the text color on hover */
+    transition: background-color 0.3s, color 0.3s; /* add a smooth transition effect */
+  }
+.text-reset{
+    text-decoration:none;
+    
+}
+.fa-facebook-f:hover{
+    color: rgb(125, 125, 248);
+    font-size: large;
+}
+.fa-google:hover{
+    color: rgb(255, 166, 0);
+    font-size: large;
+}
+.fa-linkedin:hover{
+    color: rgb(0, 0, 255);
+    font-size: large;
+}
+.fa-instagram:hover{
+    font-size: large;
+    color: rgb(242, 52, 27);
+}
+.fa-github:hover{
+    color: rgb(8, 8, 8);
+    font-size: large;
+}
+.fa-twitter:hover{
+    color: blue;
+    font-size: large;
+}
+
+
