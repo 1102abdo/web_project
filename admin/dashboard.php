@@ -37,7 +37,7 @@
               <ul class="navbar-nav ms-auto ">
                 <div class="d-grid gap-2 row-gap-1">
                   <form class="form-inline mr-auto">
-                    <a href="/login.html" class="btn btn-outline-primary me-2" role="button">Log out</a>
+                    <a href="../logout.php" class="btn btn-outline-primary me-2" role="button">Log out</a>
                   </form>
                 </div>
               </ul>
