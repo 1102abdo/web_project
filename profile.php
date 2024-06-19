@@ -107,14 +107,18 @@ $_SESSION["title"] = "your profile";
           <div class="d-flex justify-content-between mt-3 mb-4">
             <h3 class="mb-3 mb-sm-0 fw-semibold">Create a Post</h3>
           </div>
-          <form action="store_post.php" method="$_POST">
+          <form action="store_post.php" method="post" enctype="multipart/form-data" >
+            <div class="mb-3">
+              <label for="postText" class="form-label">Title</label>
+              <input type="text" name="title" class="form-control" placeholder="title" >
+            </div>
             <div class="mb-3">
               <label for="postText" class="form-label">Post Text</label>
-              <textarea class="form-control" id="postText" rows="3" placeholder="What's on your mind?"></textarea>
+              <textarea class="form-control" name="content" id="postText" rows="3" placeholder="What's on your mind?"></textarea>
             </div>
             <div class="mb-3">
               <label for="postImage" class="form-label">Upload Image</label>
-              <input class="form-control" type="file" id="postImage">
+              <input class="form-control" name="image" type="file" id="postImage">
             </div>
             <button type="submit" class="btn btn-primary">Post</button>
           </form>
