@@ -31,7 +31,7 @@ session_start();
                                 <?php
                                 if (!empty($_SESSION["errors"])) {
                                 ?>
-                                    <div class="alert alert-warning" role="alert">
+                                    <div class="alert alert-warning" role="alert" id="myElement">
                                         <strong>empty field</strong> 
                                     </div>
                                 <?php
@@ -41,7 +41,7 @@ session_start();
                                 <?php
                                 if (!empty($_SESSION["no user"])) {
                                 ?>
-                                    <div class="alert alert-warning" role="alert">
+                                    <div class="alert alert-warning" role="alert" id="myElement">
                                         <strong>No User</strong> 
                                     </div>
                                 <?php
@@ -81,6 +81,14 @@ session_start();
     </div>
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="js/main.js"></script>
+    <script>
+    setTimeout(function() {
+      var elementToHide = document.getElementById('myElement');
+      if (elementToHide) {
+        elementToHide.style.display = 'none';
+      }
+    }, 5000);
+  </script>
 </body>
 
 </html>

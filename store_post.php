@@ -11,7 +11,7 @@ if ($_FILES ["image"]["name"]) {
     $imageStore = null ;
 }
 
-$user->store_post($_REQUEST["title"],$_REQUEST["content"],$user->id);
+$user->store_post($_REQUEST["title"],$_REQUEST["content"],$imageStore,$user->id);
 header("location:profile.php?msg=done");
     
 }else{

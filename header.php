@@ -1,11 +1,13 @@
 <?php
-// Check if session is not started yet
+// Check  session is not started 
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 require_once("classes.php");
-$user = unserialize($_SESSION["user"]);
 
+if (empty($user = unserialize($_SESSION["user"]))) {
+  header("location:login.php");
+}
 $title = $_SESSION["title"];
 
 ?>
