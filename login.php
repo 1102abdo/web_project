@@ -39,10 +39,19 @@ session_start();
                                 ?>
                                 <form method="POST" id="signup-form" class="signup-form" action="handle_login.php">
                                 <?php
-                                if (!empty($_SESSION["no user"])) {
-                                ?>
+                                if (!empty($_GET["msg"]) && $_GET["msg"]=="emptyfield") {
+                                    ?>
                                     <div class="alert alert-warning" role="alert" id="myElement">
                                         <strong>No User</strong> 
+                                    </div>
+                                <?php
+                                }
+                                ?>
+                                <?php
+                                if (!empty($_GET["msg"])&& $_GET["msg"]=="ban") {
+                                ?>
+                                    <div class="alert alert-warning" role="alert" id="myElement">
+                                        <strong>You have baned</strong> انطر ابلكاش
                                     </div>
                                 <?php
                                 }

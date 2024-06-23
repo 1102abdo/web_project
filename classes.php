@@ -7,9 +7,10 @@ abstract class User {
     public $phone;
     protected $password;
     public $image;
+    public $ban;
     public $created_at;
     public $updated_at;
-    function __construct($id,$name,$email,$phone,$password,$image,$created_at,$updated_at)
+    function __construct($id,$name,$email,$phone,$password,$image,$ban,$created_at,$updated_at)
     {
         $this->id=$id;
         $this->name=$name;
@@ -17,6 +18,7 @@ abstract class User {
         $this->phone=$phone;
         $this->password=$password;
         $this->image = $image;
+        $this->ban=$ban;
         $this->created_at=$created_at;
         $this->updated_at=$updated_at;
         
@@ -30,11 +32,11 @@ abstract class User {
         if ($arr = mysqli_fetch_assoc($rslt) ) {
             switch ($arr["role"]) {
                 case 'subscriber':
-                   $user = new Subscriber($arr["id"],$arr["name"],$arr["email"],$arr["phone"],$arr["password"],$arr["image"],$arr["created_at"],$arr["updated_at"]);
+                   $user = new Subscriber($arr["id"],$arr["name"],$arr["email"],$arr["phone"],$arr["password"],$arr["image"],$arr["ban"],$arr["created_at"],$arr["updated_at"]);
                     break;
                 
                     case 'admin':
-                        $user = new Admin($arr["id"],$arr["name"],$arr["email"],$arr["phone"],$arr["password"],$arr["image"],$arr["created_at"],$arr["updated_at"]);
+                        $user = new Admin($arr["id"],$arr["name"],$arr["email"],$arr["phone"],$arr["password"],$arr["image"],$arr["ban"],$arr["created_at"],$arr["updated_at"]);
                          break;
             }
         }
@@ -50,8 +52,46 @@ class Admin extends User{
         require_once('connect.php');
         $cn = mysqli_connect(DB_HOST,DB_USER_NAME,DB_USER_PASSWORD,DB_NAME);
         $rslt = mysqli_query($cn,$qry);
+        $data = mysqli_fetch_all($rslt,MYSQLI_ASSOC);
         mysqli_close($cn);
-        return $rslt;
+        return $data;
+     }
+     function get_posts(){
+      $qry = "SELECT * FROM posts join users on posts.user_id = users.id ORDER BY posts.CREATED_AT";
+      require_once('connect.php');
+      $cn = mysqli_connect(DB_HOST,DB_USER_NAME,DB_USER_PASSWORD,DB_NAME);
+      $rslt = mysqli_query($cn,$qry);
+      $data = mysqli_fetch_all($rslt,MYSQLI_ASSOC);
+      mysqli_close($cn);
+      return $data;
+
+     }
+     function delete_posts($post_id){
+      $qry = "DELETE FROM POSTS WHERE id = $post_id";
+      require_once('connect.php');
+      $cn = mysqli_connect(DB_HOST,DB_USER_NAME,DB_USER_PASSWORD,DB_NAME);
+      $rslt = mysqli_query($cn,$qry);
+      mysqli_close($cn);
+      return $rslt;
+
+     }
+     function Ban_users($user_id){
+      $qry = "UPDATE users SET ban = 1 WHERE id= $user_id";
+      require_once('connect.php');
+      $cn = mysqli_connect(DB_HOST,DB_USER_NAME,DB_USER_PASSWORD,DB_NAME);
+      $rslt = mysqli_query($cn,$qry);
+      mysqli_close($cn);
+      return $rslt;
+
+     }
+     function delete_account($user_id){
+      $qry = "DELETE FROM users WHERE id = $user_id";
+      require_once('connect.php');
+      $cn = mysqli_connect(DB_HOST,DB_USER_NAME,DB_USER_PASSWORD,DB_NAME);
+      $rslt = mysqli_query($cn,$qry);
+      mysqli_close($cn);
+      return $rslt;
+
      }
 
 }
@@ -66,6 +106,8 @@ class  Subscriber extends User{
         mysqli_close($cn);
         return $rslt;
      }
+
+
      public function store_post($title,$content,$imageStore,$user_id){
         $qry = "INSERT INTO posts (title,content,image,user_id)values('$title','$content','$imageStore',$user_id)";
         require_once("connect.php");
@@ -74,6 +116,8 @@ class  Subscriber extends User{
         mysqli_close($cn);
         return $rslt;
      }
+
+
      public function store_comment($commint,$post_id,$user_id){
         $qry = "INSERT INTO commints (content,post_id,user_id) values ('$commint',$post_id,$user_id)";
         require_once("connect.php");
@@ -82,8 +126,16 @@ class  Subscriber extends User{
         mysqli_close($cn);
         return $rslt;
      }
+     public function likes ($post_id,$user_id){
+        $qry = "INSERT INTO likes (post_id,user_id) values ($post_id,$user_id)";
+        require_once("connect.php");
+        $cn = mysqli_connect(DB_HOST,DB_USER_NAME,DB_USER_PASSWORD,DB_NAME);
+        $rslt = mysqli_query($cn,$qry);
+        mysqli_close($cn);
+        return $rslt;
+     }
      public function my_posts($user_id){
-        $qry = "SELECT * FROM posts WHERE user_id = $user_id ORDER BY CREATED_AT DESC ";
+        $qry = "SELECT * FROM posts  WHERE user_id = $user_id ORDER BY CREATED_AT DESC ";
         require_once("connect.php");
         $cn = mysqli_connect(DB_HOST,DB_USER_NAME,DB_USER_PASSWORD,DB_NAME);
         $rslt = mysqli_query($cn,$qry);
@@ -92,7 +144,7 @@ class  Subscriber extends User{
         return $post ;
      }
      public function home_posts(){
-        $qry = "SELECT * FROM posts join users on posts.user_id = users.id  ORDER BY posts.CREATED_AT DESC LIMIT 10  ";
+        $qry = "SELECT * FROM posts   ORDER BY posts.CREATED_AT DESC LIMIT 10  ";
         require_once("connect.php");
         $cn = mysqli_connect(DB_HOST,DB_USER_NAME,DB_USER_PASSWORD,DB_NAME);
         $rslt = mysqli_query($cn,$qry);
@@ -109,15 +161,15 @@ class  Subscriber extends User{
         mysqli_close($cn);
         return $comment ;
      }
-     public function home_comments(){
-        $qry = "SELECT * FROM commints join users on commints.user_id = users.id  ORDER BY commints.CREATED_AT DESC ";
-        require_once("connect.php");
-        $cn = mysqli_connect(DB_HOST,DB_USER_NAME,DB_USER_PASSWORD,DB_NAME);
-        $rslt = mysqli_query($cn,$qry);
-        $comment = mysqli_fetch_all($rslt,MYSQLI_ASSOC);
-        mysqli_close($cn);
-        return $comment ;
-     }
+   //   public function home_comments(){
+   //      $qry = "SELECT * FROM commints join users on commints.user_id = users.id  ORDER BY commints.CREATED_AT DESC ";
+   //      require_once("connect.php");
+   //      $cn = mysqli_connect(DB_HOST,DB_USER_NAME,DB_USER_PASSWORD,DB_NAME);
+   //      $rslt = mysqli_query($cn,$qry);
+   //      $comment = mysqli_fetch_all($rslt,MYSQLI_ASSOC);
+   //      mysqli_close($cn);
+   //      return $comment ;
+   //   }
      public function profile_image($image,$user_id){
         $qry = "UPDATE users SET IMAGE ='$image' WHERE id = $user_id";
         require_once("connect.php");

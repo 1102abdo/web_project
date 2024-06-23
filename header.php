@@ -8,8 +8,6 @@ require_once("classes.php");
 if (empty($user = unserialize($_SESSION["user"]))) {
   header("location:login.php");
 }
-$title = $_SESSION["title"];
-
 ?>
 
 <!doctype html>
@@ -97,7 +95,7 @@ $title = $_SESSION["title"];
   <header class=" p-3 mb-3 border-bottom">
     <nav class="navbar navbar-expand-lg">
       <div class="container-fluid">
-        <a class="navbar-brand" href="Blog Home.html"><?=$title ?></a>
+        <!-- <a class="navbar-brand" href="Blog Home.html"></a> -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>

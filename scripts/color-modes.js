@@ -19,6 +19,18 @@
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
   }
 
+  // Add an event listener to the toggle button
+document.addEventListener("DOMContentLoaded", function() {
+  const toggleButtons = document.querySelectorAll(".toggle-comments");
+  toggleButtons.forEach(function(button) {
+    button.addEventListener("click", function() {
+      const collapseId = button.getAttribute("data-target");
+      const collapseElement = document.querySelector(collapseId);
+      collapseElement.classList.toggle("show");
+    });
+  });
+});
+
   const setTheme = theme => {
     if (theme === 'auto') {
       document.documentElement.setAttribute('data-bs-theme', (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'))

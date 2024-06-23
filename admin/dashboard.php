@@ -3,6 +3,7 @@ session_start();
 require_once("../classes.php");
 $user = unserialize($_SESSION["user"]);
 $all_users = $user->get_users();
+$all_posts = $user->get_posts();
 ?>
 
 <!doctype html>
@@ -38,9 +39,7 @@ $all_users = $user->get_users();
               <li class="nav-item">
                 <a class="nav-link" href="#userPosts">User Posts</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#likedPosts">Liked Posts</a>
-              </li>
+
             </ul>
             <ul class="navbar-nav ms-auto ">
               <div class="d-grid gap-2 row-gap-1">
@@ -63,7 +62,7 @@ $all_users = $user->get_users();
               <th>Name</th>
               <th>Email</th>
               <th>phone</th>
-              <th>action</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -72,14 +71,19 @@ $all_users = $user->get_users();
             ?>
               <tr>
                 <th><?= $user["ID"] ?></th>
-                
+
                 <th><?= $user["name"] ?></th>
                 <th><?= $user["email"] ?></th>
                 <th><?= $user["phone"] ?></th>
-                <th>
-                  <a name="" id="" class="btn btn-danger" href="#" role="button">Ban</a>
-                  <a name="" id="" class="btn btn-danger" href="#" role="button">Delete</a>
-
+                <th >
+                  <form method="post" action="DeleteUser.php" style="display: inline-block;">
+                    <button type="submit" name=""  class="btn btn-danger" >Delete</button>
+                    <input type="hidden" name="user_id" value="<?=$user["ID"] ?>">
+                  </form>
+                  <form method="post" action="BanUser.php" style="display: inline-block;">
+                    <button type="submit" name=""  class="btn btn-danger" >Ban</button>
+                    <input type="hidden" name="user_id" value="<?=$user["ID"] ?>">
+                  </form>
                 </th>
               </tr>
             <?php
@@ -91,30 +95,37 @@ $all_users = $user->get_users();
       </section>
       <section id="userPosts">
         <h2>User Posts</h2>
-        <table id="postsTable">
+        <table id="">
           <thead>
             <tr>
               <th>Post ID</th>
-              <th>Content</th>
-              <th>Actions</th>
+              <th>user name</th>
+              <th>title</th>
+              <th>content</th>
+              <th>photo</th>
+              <th>Delete</th>
             </tr>
           </thead>
           <tbody>
-            <!-- Dynamic Post Rows Here -->
-          </tbody>
-        </table>
-      </section>
-      <section id="likedPosts">
-        <h2>Liked Posts</h2>
-        <table id="likedPostsTable">
-          <thead>
-            <tr>
-              <th>Post ID</th>
-              <th>Content</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- Dynamic Liked Posts Rows Here -->
+            <?php
+            foreach ($all_posts as $post) {
+            ?>
+              <tr>
+                <th><?= $post["ID"] ?></th>
+                <th><?= $post["name"] ?></th>
+                <th><?= $post["title"] ?></th>
+                <th><?= $post["content"] ?></th>
+                <th><?= $post["image"] ?></th>
+                <th>
+                <form method="post" action="delete_post.php">
+                <button type="submit" name=""  class="btn btn-danger" >Delete</button>
+                <input type="hidden" name="post_id" value="<?=$post["ID"] ?>">
+                  </form>
+                </th>
+              </tr>
+            <?php
+            }
+            ?>
           </tbody>
         </table>
       </section>
