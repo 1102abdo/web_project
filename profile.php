@@ -34,12 +34,12 @@ $posts = $user->my_posts($user->id);
             <div class="d-flex align-items-center justify-content-center mb-2">
               <div class="linear-gradient d-flex align-items-center justify-content-center rounded-circle" style="width: 110px; height: 110px;" ;="">
                 <div class="border border-4 border-white d-flex align-items-center justify-content-center rounded-circle overflow-hidden" style="width: 100px; height: 100px;" ;="">
-                  <img src="<?= $user->image ?>" alt="" class="w-100 h-100">
+                  <img src="<?=$user->image_user?>" alt="" class="w-100 h-100">
                 </div>
               </div>
             </div>
             <div class="text-center">
-              <h5 class="fs-5 mb-0 fw-semibold"><?= $user->name ?></h5>
+              <h5 class="fs-5 mb-0 fw-semibold"><?= $user->name?></h5>
             </div>
           </div>
           <?php
@@ -205,7 +205,7 @@ $posts = $user->my_posts($user->id);
   
                             <div class="d-flex justify-content-between">
                               <div class="d-flex flex-row align-items-center">
-                                <img src="<?=$comment["image"]?>" alt="avatar" width="25" height="25" />
+                                <img src="<?=$comment["image_user"]?>" alt="avatar" width="25" height="25" />
                                 <p class="small mb-0 ms-2"><?=$comment["name"]?></p>
                               </div>
                               <div class="d-flex flex-row align-items-center">

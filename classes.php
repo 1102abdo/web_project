@@ -6,18 +6,18 @@ abstract class User {
     public $email;
     public $phone;
     protected $password;
-    public $image;
+    public $image_user;
     public $ban;
     public $created_at;
     public $updated_at;
-    function __construct($id,$name,$email,$phone,$password,$image,$ban,$created_at,$updated_at)
+    function __construct($id,$name,$email,$phone,$password,$image_user,$ban,$created_at,$updated_at)
     {
         $this->id=$id;
         $this->name=$name;
         $this->email=$email;
         $this->phone=$phone;
         $this->password=$password;
-        $this->image = $image;
+        $this->image_user = $image_user;
         $this->ban=$ban;
         $this->created_at=$created_at;
         $this->updated_at=$updated_at;
@@ -32,11 +32,11 @@ abstract class User {
         if ($arr = mysqli_fetch_assoc($rslt) ) {
             switch ($arr["role"]) {
                 case 'subscriber':
-                   $user = new Subscriber($arr["id"],$arr["name"],$arr["email"],$arr["phone"],$arr["password"],$arr["image"],$arr["ban"],$arr["created_at"],$arr["updated_at"]);
+                   $user = new Subscriber($arr["id"],$arr["name"],$arr["email"],$arr["phone"],$arr["password"],$arr["image_user"],$arr["ban"],$arr["created_at"],$arr["updated_at"]);
                     break;
                 
                     case 'admin':
-                        $user = new Admin($arr["id"],$arr["name"],$arr["email"],$arr["phone"],$arr["password"],$arr["image"],$arr["ban"],$arr["created_at"],$arr["updated_at"]);
+                        $user = new Admin($arr["id"],$arr["name"],$arr["email"],$arr["phone"],$arr["password"],$arr["image_user"],$arr["ban"],$arr["created_at"],$arr["updated_at"]);
                          break;
             }
         }
@@ -144,7 +144,7 @@ class  Subscriber extends User{
         return $post ;
      }
      public function home_posts(){
-        $qry = "SELECT * FROM posts   ORDER BY posts.CREATED_AT DESC LIMIT 10  ";
+        $qry = "SELECT * FROM posts join users on posts.user_id=users.id ORDER BY posts.CREATED_AT DESC LIMIT 10  ";
         require_once("connect.php");
         $cn = mysqli_connect(DB_HOST,DB_USER_NAME,DB_USER_PASSWORD,DB_NAME);
         $rslt = mysqli_query($cn,$qry);
@@ -171,7 +171,7 @@ class  Subscriber extends User{
    //      return $comment ;
    //   }
      public function profile_image($image,$user_id){
-        $qry = "UPDATE users SET IMAGE ='$image' WHERE id = $user_id";
+        $qry = "UPDATE users SET IMAGE_user ='$image' WHERE id = $user_id";
         require_once("connect.php");
         $cn = mysqli_connect(DB_HOST,DB_USER_NAME,DB_USER_PASSWORD,DB_NAME);
         $rslt = mysqli_query($cn,$qry);

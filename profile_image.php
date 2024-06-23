@@ -8,7 +8,7 @@ if (!empty($_FILES["image"]["name"])) {
     $profileImage = "image/users/" . $_FILES["image"]["name"];
     move_uploaded_file($_FILES["image"]["tmp_name"],$profileImage);
     $user->profile_image($profileImage,$user->id);
-    $user->image=$profileImage;
+    $user->image_user=$profileImage;
     $_SESSION["user"] = serialize($user);
     
     header("location:profile.php?msg=success");
