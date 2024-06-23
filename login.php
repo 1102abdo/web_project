@@ -48,6 +48,15 @@ session_start();
                                 }
                                 ?>
                                 <?php
+                                if (!empty($_GET["msg"])&& $_GET["msg"]=="no user") {
+                                ?>
+                                    <div class="alert alert-warning" role="alert" id="myElement">
+                                        <strong> failed </strong> user name or password is not correct
+                                    </div>
+                                <?php
+                                }
+                                ?>
+                                <?php
                                 if (!empty($_GET["msg"])&& $_GET["msg"]=="ban") {
                                 ?>
                                     <div class="alert alert-warning" role="alert" id="myElement">
