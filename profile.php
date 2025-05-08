@@ -64,14 +64,22 @@ $posts = $user->my_posts($user->id);
           }
           ?>
           <form action="profile_image.php" method="post" enctype="multipart/form-data">
-            <!-- <label for="" class="form-label">Sized Input</label>
-                  <input type="file" size="20cm" class="form-control form-control-sm" name="" id="" aria-describedby="helpId" placeholder="" />
-                  <small id="helpId" class="form-text text-muted">Help text</small> -->
+            <!-- <label for="" class="form-label">Upload photo</label>
+                  <!-- <input type="file" size="20cm" class="form-control form-control-sm" name="" id="" aria-describedby="helpid" placeholder="" /> -->
 
-            <input type="file" name="image" class="btn btn-dark btn-block mb-2">Upload</input>
-            <button type="submit" class="btn btn-primary">
-              Save
-            </button>
+            <!-- <input type="file" name="image" class="btn btn-dark btn-block mb-2">Upload</input> --> 
+            <!-- <button type="submit" class="btn btn-primary"> -->
+              <!-- Save -->
+            <!-- </button> -->
+
+            <div class="mb-3">
+          <label for="postImage" class="form-label">Upload Image</label>
+          <input class="form-control" name="image" type="file" id="postImage">
+        </div>
+        <button type="submit" class="btn btn-primary">Upload</button>
+
+
+
 
 
           </form>
@@ -192,11 +200,11 @@ $posts = $user->my_posts($user->id);
                     
                     <form class="comment-form"  action="store_comment.php">
                     <input type="text" name="comment" class="form-control" id="comment-input" placeholder="Enter your comment...">
-                      <input type="hidden" name="post_id" value="<?= $post["ID"] ?>">
+                      <input type="hidden" name="post_id" value="<?= $post["id"] ?>">
                       <button type="submit" class="btn btn-primary my-2">Submit</button>
                     </form>
                     <?php
-                      $comments = $user->my_comments($post["ID"]);
+                      $comments = $user->my_comments($post["id"]);
                       foreach ($comments as $comment) {
                         ?>
                         <div class="card mb-4">
@@ -235,7 +243,7 @@ $posts = $user->my_posts($user->id);
 
   <script>
     setTimeout(function() {
-      var elementToHide = document.getElementById('myElement');
+      var elementToHide = document.getElementByid('myElement');
       if (elementToHide) {
         elementToHide.style.display = 'none';
       }

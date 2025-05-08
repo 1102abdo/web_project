@@ -1,103 +1,50 @@
-create database blog;
-use blog;
-create table if not exists users(
-id int auto_increment primary key ,
-name varchar(100) not null,
-email varchar(100) unique not null,
-phone varchar (12),
-password varchar(50),
-role enum('subscriber','admin'),
-created_at timestamp default current_timestamp,
-updated_at timestamp  default current_timestamp
+-- إنشاء قاعدة البيانات
+CREATE DATABASE IF NOT EXISTS batu;
+USE batu;
+
+-- جدول المستخدمين
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    phone VARCHAR(20),
+    password VARCHAR(255) NOT NULL,
+    image_user VARCHAR(255) DEFAULT 'default.png',
+    ban TINYINT(1) DEFAULT 0,
+    role ENUM('admin', 'subscriber') NOT NULL DEFAULT 'subscriber',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
-create table if not exists posts(
-id int auto_increment primary key ,
-title varchar(100),
-content text,
-created_at timestamp default current_timestamp,
-updated_at timestamp default current_timestamp,
- user_id int ,  
- constraint fk_user_id_users 
- foreign key (user_id)
- references users(id)
- on update cascade
- on delete cascade
- 
+-- جدول المنشورات
+CREATE TABLE posts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    content TEXT NOT NULL,
+    image VARCHAR(255),
+    user_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
-create table if not exists commints(
-id int auto_increment primary key ,
-content text not null,
-created_at timestamp default current_timestamp,
-updated_at timestamp default current_timestamp,
-user_id int ,
-post_id int ,   
- constraint fk_user_id_commints_users 
- foreign key (user_id)
- references users(id)
- on update cascade
- on delete cascade,
-constraint fk_post_id_posts 
- foreign key (post_id)
- references posts(id)
- on update cascade
- on delete cascade
- 
-);
-create table if not exists image(
-id int auto_increment primary key ,
-name varchar(100),
-url text,
-post_id int ,  
- constraint fk_post_id_image_users 
- foreign key (post_id)
- references posts(id)
- on update cascade
- on delete cascade
- 
-);
-create table if not exists likes(
-id int auto_increment primary key ,
-created_at timestamp default current_timestamp,
-updated_at timestamp default current_timestamp,
-user_id int ,
-post_id int ,   
- constraint fk_user_id_likes_users 
- foreign key (user_id)
- references users(id)
- on update cascade
- on delete cascade,
-constraint fk_post_id_likes_posts 
- foreign key (post_id)
- references posts(id)
- on update cascade
- on delete cascade
- 
+-- جدول التعليقات
+CREATE TABLE commints (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    content TEXT NOT NULL,
+    post_id INT NOT NULL,
+    user_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
-create table if not exists categories(
-id int primary key auto_increment,
-name varchar(100)
+-- جدول الإعجابات
+CREATE TABLE likes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    post_id INT NOT NULL,
+    user_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    UNIQUE (post_id, user_id)
 );
-create table if not exists postCategory(
-category_id int,
-post_id int,
-constraint fk_post_id_category_posts
-foreign key (post_id)
-references posts(id)
-on update cascade
-on delete cascade,
-constraint fk_category_id_category
-foreign key (category_id)
-references categories(id)
-on update cascade
-on delete cascade
-);
-select * from users;
-use blog;
-drop table posts;
-drop table image;
-alter table users
-change  image image_user varchar(255) ;
-

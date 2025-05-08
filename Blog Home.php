@@ -49,22 +49,25 @@ $homePosts = $user->home_posts();
                       </div>
                       <!-- comment -->
                       <!-- Comment&Like section -->
-                      <button class="btn like-button my-1" type="button">
-                        <i class="bi bi-heart">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1.176-.17C12.72-3.042 23.333 4.867 8 15" />
-                          </svg>
-                        </i>
-                        <span class="like-count">0</span>
-                      </button>
+                    <form method="post" action="like.php">
+                    <input type="hidden" name="post_id" value="<?=$post["id"] ?>">
+                        <button class="btn like-button my-1" type="submit">
+                          <i class="bi bi-heart">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                              <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1.176-.17C12.72-3.042 23.333 4.867 8 15" />
+                            </svg>
+                          </i>
+                          <span class="like-count">0</span>
+                        </button>
+                    </form>
 
                       <form class="comment-form" action="store_comment_2.php">
                         <input type="text" name="comment" class="form-control" id="comment-input" placeholder="Enter your comment...">
-                        <input type="hidden" name="post_id" value="<?= $post["ID"] ?>">
+                        <input type="hidden" name="post_id" value="<?= $post["id"] ?>">
                         <button type="submit" class="btn btn-primary my-2">Submit</button>
                       </form>
                       <?php
-                      $comments = $user->my_comments($post["ID"]);
+                      $comments = $user->my_comments($post["id"]);
                       foreach ($comments as $comment) {
                       ?>
                         <div class="card mb-4">
